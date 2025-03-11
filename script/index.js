@@ -9,8 +9,24 @@ function loadCategories() {
 
 }
 
+// {"category_id": '1001',
+//  "category": 'Music'}
 function displayCategories(categories){
-   console.log(categories);
+   //get the container
+   const categoryContainer = document.getElementById("category-container");
+   //loop operation on array of object
+   for(let cat of categories){
+    // console.log(cat);
+    
+      //create element
+      const categoryDiv = document.createElement("div");
+      categoryDiv.innerHTML = `
+      <button class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
+      `;
+   //append the element
+   categoryContainer.append(categoryDiv);
+   }
+  
    
 }
 
