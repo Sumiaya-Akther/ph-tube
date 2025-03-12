@@ -4,7 +4,7 @@ function removeActiveClass() {
    for(let btn of activeButtons){
       btn.classList.remove("active");
    }
-}
+};
 
 
 function loadCategories() {
@@ -16,7 +16,7 @@ function loadCategories() {
    //3 - send data to display
    .then((data) => displayCategories(data.categories));
 
-}
+};
 
 function loadVideos() {
    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
@@ -27,7 +27,7 @@ function loadVideos() {
       displayVideos(data.videos);
    });
    
-}
+};
 
 const loadCategoryVideos = (id) =>{
    const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id} `;
@@ -44,6 +44,24 @@ const loadCategoryVideos = (id) =>{
 
    });
    
+};
+
+const loadVideoDetails = (videoId) => {
+   const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+    //console.log(url);
+    fetch (url)
+    .then ((res) => res.json())
+    .then ((data) => displayVideoDetails(data.video));
+    
+    
+};
+
+const displayVideoDetails = (video) => {
+     document.getElementById("video_details").showModal();
+     const detailsContainer = document.getElementById("details_container");
+     detailsContainer.innerHTML = `
+     <h2>${video.title}</h2>
+     `;
 }
 
 // {"category_id": '1001',
@@ -65,7 +83,7 @@ function displayCategories(categories){
    }
   
    
-}
+};
  
 
 const displayVideos =(videos)=>{
@@ -111,6 +129,7 @@ const displayVideos =(videos)=>{
                         <p class="text-sm text-gray-400">${video.others.views}</p>
                  </div>
             </div>
+            <button onclick=loadVideoDetails('${video.video_id}') class="btn btn-block">Show Details</button>
           </div>
 
         `;
