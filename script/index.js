@@ -1,4 +1,12 @@
 
+function removeActiveClass() {
+   const activeButtons = document.getElementsByClassName("active");
+   for(let btn of activeButtons){
+      btn.classList.remove("active");
+   }
+}
+
+
 function loadCategories() {
     //fetch the data
 
@@ -13,7 +21,11 @@ function loadCategories() {
 function loadVideos() {
    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
    .then((response) => response.json())
-   .then((data) => displayVideos(data.videos));
+   .then((data) => {
+      removeActiveClass();
+      document.getElementById("btn-all").classList.add("active")
+      displayVideos(data.videos);
+   });
    
 }
 
@@ -22,7 +34,15 @@ const loadCategoryVideos = (id) =>{
    //console.log(url);
    fetch (url)
    .then ((res) => res.json())
-   .then((data) => displayVideos(data.category));
+   .then((data) => {
+      removeActiveClass();
+      const clickedButton = document.getElementById(`btn-${id}`);
+      clickedButton.classList.add("active");
+      //console.log(clickedButton);
+      
+      displayVideos(data.category);
+
+   });
    
 }
 
@@ -38,7 +58,7 @@ function displayCategories(categories){
       //create element
       const categoryDiv = document.createElement("div");
       categoryDiv.innerHTML = `
-      <button onclick="loadCategoryVideos(${cat.category_id})" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
+      <button id="btn-${cat.category_id}" onclick="loadCategoryVideos(${cat.category_id})" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
       `;
    //append the element
    categoryContainer.append(categoryDiv);
@@ -53,6 +73,17 @@ const displayVideos =(videos)=>{
      
      const videoContainer = document.getElementById("video-container");
      videoContainer.innerHTML = "";
+
+    if (videos.length == 0) {
+      videoContainer.innerHTML = `
+      <div class="col-span-full flex flex-col justify-center items-center text-center py-20">
+            <img src="./assets/Icon.png" alt="">
+            <h2 class="text-2xl font-bold">Oops!! Sorry, There is no <br> content here</h2>
+        </div>
+      `;
+      return;
+    }
+
      videos.forEach((video) => {
         //console.log(video);
         const videoCard = document.createElement("div");
