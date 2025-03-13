@@ -60,7 +60,17 @@ const displayVideoDetails = (video) => {
      document.getElementById("video_details").showModal();
      const detailsContainer = document.getElementById("details_container");
      detailsContainer.innerHTML = `
-     <h2>${video.title}</h2>
+     <div class="card bg-base-100 image-full shadow-sm">
+  <figure>
+    <img
+      src="${video.thumbnail}"
+      alt="Shoes" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">${video.title}</h2>
+    <p>${video.description}</p>
+  </div>
+</div>
      `;
 }
 
@@ -87,7 +97,7 @@ function displayCategories(categories){
  
 
 const displayVideos =(videos)=>{
-     //console.log(videos);
+     console.log(videos);
      
      const videoContainer = document.getElementById("video-container");
      videoContainer.innerHTML = "";
@@ -140,5 +150,6 @@ const displayVideos =(videos)=>{
 
 
 };
+loadVideos()
 
 loadCategories();
